@@ -116,7 +116,7 @@ While theHarvester comes pre-installed on standard Kali Linux distributions, it 
                                                theHarvester -h
 
 <p align="center">
-  <img src="">
+  <img src="-h.png">
 </p>
 
 ## Step 2: Core Command Syntax
@@ -139,7 +139,7 @@ Let us use a live public entity (kali.org) to demonstrate a real-world passive f
 **Analyzing the Real-World Output:**
 
 <p align="center">
-  <img src="-h.png">
+  <img src="kali_org.png">
 </p>
 
 The tool will print a structured text report directly into your terminal. Keep an eye out for these key sections:
