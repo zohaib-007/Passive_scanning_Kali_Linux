@@ -22,7 +22,7 @@ To gather information on a specific domain name, pass the target domain directly
                                                  whois wikipedia.org
 
 <p align="center">
-  <img src="https://example.com" width="400">
+  <img src="wikipedia.png">
 </p>
 
                                                 
@@ -45,7 +45,7 @@ Query a public IP address:
 
                                                    whois 8.8.8.8
 <p align="center">
-  <img src="https://example.com" width="400">
+  <img src="whois_ip.png">
 </p>
 
 
@@ -78,7 +78,7 @@ Pipe your results directly into less to scroll up and down using your keyboard a
                                       whois wikipedia.org | grep -i "Expiry Date"
                         
 <p align="center">
-  <img src="https://example.com" width="400">
+  <img src="expiry.png">
 </p>
 
 Filter out the noise and pull specific parameters by piping the output into grep
