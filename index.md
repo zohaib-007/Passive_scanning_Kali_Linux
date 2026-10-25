@@ -199,9 +199,11 @@ dnsenum comes out of the box in standard Kali Linux installations. If you are ru
 **1\. Update your system's package index**
 
                                                       sudo apt update
+													  
 **2\. Install or update the tool**
 
                                                  sudo apt install dnsenum -y
+												 
 **3\. Check the version details and view all configuration flags**
 
                                                        dnsenum --help
