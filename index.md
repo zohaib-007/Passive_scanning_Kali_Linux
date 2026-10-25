@@ -206,7 +206,7 @@ dnsenum comes out of the box in standard Kali Linux installations. If you are ru
 
                                                        dnsenum --help
 <p align="center">
-  <img src="https://example.com">
+  <img src="dnsenum_help.png">
 </p>
 
 
@@ -228,7 +228,7 @@ Let us use a live domain (zonetransfer.me) to demonstrate a real-world active fo
                                                dnsenum zonetransfer.me
 
 <p align="center">
-  <img src="https://example.com">
+  <img src="zonetransfer.png">
 </p>
 
 
