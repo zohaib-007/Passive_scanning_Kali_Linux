@@ -139,7 +139,7 @@ Let us use a live public entity (kali.org) to demonstrate a real-world passive f
 **Analyzing the Real-World Output:**
 
 <p align="center">
-  <img src="https://example.com">
+  <img src="-h.png">
 </p>
 
 The tool will print a structured text report directly into your terminal. Keep an eye out for these key sections:
@@ -161,7 +161,7 @@ Instead of using a single search engine, use all to pull records across every bu
 
                                       theHarvester -d kali.org -l 500 -b all
 <p align="center">
-  <img src="https://example.com">
+  <img src="kali_org.png">
 </p>
 
 
@@ -177,7 +177,7 @@ Passive reconnaissance reports can grow quite large. Use the -f flag to export y
                             theHarvester -d kali.org -l 200 -b bing -f kali_recon_report
 
 
-**[!NOTE] Notes On API Keys and Rate Limiting:**
+**Notes On API Keys and Rate Limiting:**
 When running comprehensive or frequent scans, you may notice that some advanced engines (like GitHub, Shodan, or Hunter.io) require authentication or throw error blocks.
 
    * **Free vs. Paid Modules:** Basic engines like Bing, DuckDuckGo, and Baidu work out of the box. Passive scanners like Shodan, Censys, or VirusTotal require an API key.
@@ -186,7 +186,94 @@ When running comprehensive or frequent scans, you may notice that some advanced 
                                        sudo nano /etc/theHarvester/api-keys.yaml
 
   * **Rate Limiting:** If you scan too aggressively with a high -l value, public search engines might temporarily block your IP address with CAPTCHAs. Keep limits reasonable or use a proxy/VPN.
-  * 
+
+
+
+# Complete Guide to Using dnsenum on Kali Linux
+
+dnsenum is a powerful, multithreaded CLI utility pre-installed on Kali Linux. It is designed to locate all DNS records and subdomains associated with a target domain. By automating tasks like zone transfers, Google scraping, and brute-forcing, it allows penetration testers to map out a target's network infrastructure comprehensively during the active reconnaissance phase.
+
+## Step 1: Verify or Install dnsenum
+dnsenum comes out of the box in standard Kali Linux installations. If you are running a slim environment or need to update the tool to the latest version, use the following commands:
+
+**1\. Update your system's package index**
+
+                                                      sudo apt update
+**2\. Install or update the tool**
+
+                                                 sudo apt install dnsenum -y
+**3\. Check the version details and view all configuration flags**
+
+                                                       dnsenum --help
+<p align="center">
+  <img src="https://example.com">
+</p>
+
+
+## Step 2: How dnsenum Works (The Execution Order)
+When you run a standard scan, dnsenum executes several automated operations in a specific sequence:
+**1\. Name Servers (NS):** Discovers the authoritative DNS servers for the domain.
+**2\. MX Records (Mail Exchange):** Identifies mail servers handling corporate email traffic.
+**3\. AXFR (Zone Transfer):** Attempts to replicate the entire DNS zone file from the target's name servers.
+**4\. Google Scraping:** Scrapes Google search results to find additional subdomains.
+**5\. Subdomain Brute-Forcing:** Tests subdomains using a built-in text wordlist.
+**6\. Class C Network Range Calculation:** Automatically calculates network ranges based on discovered IPs and performs reverse lookups.
+
+
+## Step 3: Run a Real-Life Reconnaissance Scan
+
+Let us use a live domain (zonetransfer.me) to demonstrate a real-world active footprinting scan. This specific domain is intentionally misconfigured legally by security researchers to safely demonstrate how DNS data leakage occurs.
+1. Execute a basic automated query against the target
+
+                                               dnsenum zonetransfer.me
+
+<p align="center">
+  <img src="https://example.com">
+</p>
+
+
+**Analyzing the Output**
+
+The terminal will output organized blocks of critical network data:
+* **Host Addresses (A Records):** Shows the primary IP mapping for the core domain.
+* **Name Servers (NS Records):** Identifies servers like nsztm1.digi.ninja and nsztm2.digi.ninja.
+* **Mail Exchange (MX Records):** Displays the mail handlers for the domain.
+* **AXFR (Zone Transfer Status):** Since zonetransfer.me allows it, you will see a dump of the entire DNS map, immediately revealing internal subdomains like office.zonetransfer.me or testing.zonetransfer.me without sending a single brute-force packet.
+
+
+## Step 4: Advanced Scans and Subdomain Brute-Forcing
+
+On securely hardened enterprise targets, zone transfers (AXFR) will fail. You must rely on advanced arguments and wordlist dictionaries to discover hidden subdomains.
+
+   **1\. Custom Wordlist Brute-Forcing**
+To find subdomains that are hidden from search engines, use the -f flag pointing to a text dictionary file (Kali comes with excellent built-in lists)
+
+                                   dnsenum --dnsserver 8.8.8.8 -f /usr/share/dnsenum/dns.txt zonetransfer.me
+								   
+**Note:** --dnsserver 8.8.8.8 forces the tool to query Google's public DNS instead of your local network resolver, which prevents local DNS caching issues.
+
+
+  **2\. Speeding Up Scans with Multithreading**
+
+If you are running a large wordlist, boost the speed of your scan by increasing the thread count with the -t flag
+
+                                        dnsenum -t 50 -f /usr/share/dnsenum/dns.txt zonetransfer.me
+
+  **3\. Exporting Results to an XML Document**
+
+To store your reconnaissance evidence for penetration testing reports or to parse them into alternative tools, save the output to an XML file using the -o flag
+
+                                            dnsenum -o target_dns_report.xml zonetransfer.me
+
+											
+## Notes on Safe Operational Usage
+Because dnsenum performs active probing (brute-forcing thousands of subdomains and requesting complete network zone maps), it leaves distinct footprints in network firewall logs.
+   * **Avoid Aggressive Rates:** Sending too many concurrent DNS requests can cause a Denial of Service (DoS) on poor network endpoints or get your IP flagged by an Intrusion Detection System (IDS). Use reasonable thread values.
+   * **Failing Zone Transfers:** Do not be alarmed if you see AXFR record query failed: REFUSED. This is normal and means the administrator has properly secured the DNS infrastructure against data exposure.
+
+
+
+
 
 
 
