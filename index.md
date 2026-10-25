@@ -116,7 +116,7 @@ While theHarvester comes pre-installed on standard Kali Linux distributions, it 
                                                theHarvester -h
 
 <p align="center">
-  <img src="https://example.com">
+  <img src="">
 </p>
 
 ## Step 2: Core Command Syntax
